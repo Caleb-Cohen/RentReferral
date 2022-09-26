@@ -18,6 +18,14 @@ module.exports = {
       console.log(err);
     }
   },
+  getHow: async (req, res) => {
+    try {
+      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
+      res.render("howitworks.ejs", { posts: posts });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);

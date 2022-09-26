@@ -1,5 +1,11 @@
 <%- include('partials/header') -%>
   <div class="container">
+    <div class="text-center">
+      <input type="text" placeholder="Search...(By Zip)" class="input input-bordered w-full max-w-xs" />
+      <button class="btn">Search!</button>
+    </div>
+  </div>
+  <div class="container">
     <div class="row justify-content-center mt-5">
       <ul class="row list-unstyled">
         <% for(var i=0; i<posts.length; i++) {%>
