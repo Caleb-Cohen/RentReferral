@@ -11,7 +11,11 @@
         <% for(var i=0; i<posts.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
             <a href="/post/<%= posts[i]._id%>">
-              <img class="img-fluid" src="<%= posts[i].image%>">
+              <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+              <div>Location Name: <%= posts[i].title%></div>
+              <div>Street Address: <%= posts[i].caption%>, <%= posts[i].zip%></div>
+              <div>Amount Split: <%= posts[i].split%></div>
+              </div>
             </a>
           </li>
         <% } %>

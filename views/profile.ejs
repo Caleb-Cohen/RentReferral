@@ -10,16 +10,19 @@
             <h2>Add a post</h2>
             <form action="/post/createPost" enctype="multipart/form-data" method="POST">
               <div class="mb-3">
-                  <label for="title" class="form-label">Title</label>
+                  <label for="title" class="form-label">Location Name</label>
                   <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" id="title" name="title"/>
               </div>
               <div class="mb-3">
-                <label for="caption" class="form-label">Caption</label>
+                <label for="caption" class="form-label">Street Address</label>
                 <textarea class="input input-bordered w-full max-w-xs" id="caption" name="caption"></textarea>
               </div>
+                <label for="caption" class="form-label">Zip Code</label>
+                <textarea class="input input-bordered w-full max-w-xs" id="zip" name="zip"></textarea>
+            </div>
               <div class="mb-3">
-                <label for="imgUpload" class="form-label">Image</label>
-                <input type="file" class="form-control" id="imageUpload" name="file">
+                <label for="caption" class="form-label">Amount Split</label>
+                <textarea class="input input-bordered w-full max-w-xs" id="split" name="split"></textarea>
               </div>
               <button type="submit" value= "Upload" class="btn">Submit</button>
             </form>
@@ -30,7 +33,12 @@
         <% for(var i=0; i<posts.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
             <a href="/post/<%= posts[i]._id%>">
-              <img class="img-fluid" src="<%= posts[i].image%>">
+              <button class="btn btn-lg">
+              <div>Location Name: <%= posts[i].title%></div>
+              <div>Street Address: <%= posts[i].caption%></div>
+              <div>Zip Code: <%= posts[i].zip%></div>
+              <div>Amount Split: <%= posts[i].split%></div>
+              </button>
             </a>
           </li>
         <% } %>
