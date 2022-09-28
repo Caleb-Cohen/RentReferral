@@ -1,17 +1,28 @@
 <%- include('partials/header') -%>
   <div class="container">
     <div class="text-center">
-      <input type="text" placeholder="Search...(By Zip)" class="input input-bordered w-full max-w-xs" />
-      <button class="btn">Search!</button>
+      <form action="/searchPost" method="GET">
+        <input type="text" name="search" placeholder="Search...(By Zip)" class="input input-bordered w-full max-w-xs" />
+        <button class="btn"><input type="submit" value="search"></button></button>
+      </form>
     </div>
   </div>
   <div class="container">
     <div class="row justify-content-center mt-5">
       <ul class="row list-unstyled">
+        <% if(posts.length === 0){ %>
+          <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+            <div>No Rentals in your area!</div>
+          </div>
+        <% } %>
         <% for(var i=0; i<posts.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
             <a href="/post/<%= posts[i]._id%>">
-              <img class="img-fluid" src="<%= posts[i].image%>">
+              <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+              <div>Location Name: <%= posts[i].title%></div>
+              <div>Street Address: <%= posts[i].caption%>, <%= posts[i].zip%></div>
+              <div>Amount Split: <%= posts[i].split%></div>
+              </div>
             </a>
           </li>
         <% } %>

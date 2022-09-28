@@ -1,4 +1,4 @@
-const cloudinary = require("../middleware/cloudinary");
+const { request } = require("express");
 const Post = require("../models/Post");
 
 module.exports = {
@@ -20,8 +20,7 @@ module.exports = {
   },
   getHow: async (req, res) => {
     try {
-      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("howitworks.ejs", { posts: posts });
+      res.render("howitworks.ejs");
     } catch (err) {
       console.log(err);
     }
@@ -34,16 +33,31 @@ module.exports = {
       console.log(err);
     }
   },
+  searchPost: async (req, res) => {
+    if(req.query.search === ""){
+      console.log("input is empty")
+    } else {
+    Post.find({zip:req.query.search})
+    .then(data => {
+      console.log(data);
+      res.render("feed.ejs", { posts: data});
+    })
+    .catch(err => {
+      console.log(err);
+        res.json({
+            confirmation: 'fail',
+            message: err.message
+        })
+    })
+  }
+  },
   createPost: async (req, res) => {
     try {
-      // Upload image to cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path);
-
       await Post.create({
         title: req.body.title,
-        image: result.secure_url,
-        cloudinaryId: result.public_id,
         caption: req.body.caption,
+        zip: req.body.zip,
+        split: req.body.split,
         likes: 0,
         user: req.user.id,
       });
@@ -71,8 +85,6 @@ module.exports = {
     try {
       // Find post by id
       let post = await Post.findById({ _id: req.params.id });
-      // Delete image from cloudinary
-      await cloudinary.uploader.destroy(post.cloudinaryId);
       // Delete post from db
       await Post.remove({ _id: req.params.id });
       console.log("Deleted Post");
