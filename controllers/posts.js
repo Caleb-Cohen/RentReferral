@@ -1,3 +1,4 @@
+const { request } = require("express");
 const Post = require("../models/Post");
 
 module.exports = {
@@ -19,8 +20,7 @@ module.exports = {
   },
   getHow: async (req, res) => {
     try {
-      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("howitworks.ejs", { posts: posts });
+      res.render("howitworks.ejs");
     } catch (err) {
       console.log(err);
     }
@@ -33,10 +33,26 @@ module.exports = {
       console.log(err);
     }
   },
+  searchPost: async (req, res) => {
+    if(req.query.search === ""){
+      console.log("input is empty")
+    } else {
+    Post.find({zip:req.query.search})
+    .then(data => {
+      console.log(data);
+      res.render("feed.ejs", { posts: data});
+    })
+    .catch(err => {
+      console.log(err);
+        res.json({
+            confirmation: 'fail',
+            message: err.message
+        })
+    })
+  }
+  },
   createPost: async (req, res) => {
     try {
-      // Upload image to cloudinary
-
       await Post.create({
         title: req.body.title,
         caption: req.body.caption,
