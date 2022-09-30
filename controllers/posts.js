@@ -13,14 +13,14 @@ module.exports = {
   getFeed: async (req, res) => {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts });
+      res.render("feed.ejs", { posts: posts, user: req.user._id });
     } catch (err) {
       console.log(err);
     }
   },
   getHow: async (req, res) => {
     try {
-      res.render("howitworks.ejs");
+      res.render("howitworks.ejs", {user: req.user});
     } catch (err) {
       console.log(err);
     }
@@ -40,7 +40,7 @@ module.exports = {
     Post.find({zip:req.query.search})
     .then(data => {
       console.log(data);
-      res.render("feed.ejs", { posts: data});
+      res.render("feed.ejs", { posts: data, user: req.user});
     })
     .catch(err => {
       console.log(err);

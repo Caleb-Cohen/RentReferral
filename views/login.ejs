@@ -8,6 +8,12 @@
         <p class="py-6">To start saving money and making money!</p>
       </div>
       <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <% if (locals.messages.errors) { %> <% messages.errors.forEach( el => { %>
+          <div class="alert alert-danger"><%= el.msg %></div>
+          <% }) %> <% } %> <% if (locals.messages.info) { %> <%
+          messages.info.forEach( el => { %>
+          <div class="alert alert-info"><%= el.msg %></div>
+          <% }) %> <% } %>
         <form action="login" method="POST">
         <div class="card-body">
           <div class="form-control">
