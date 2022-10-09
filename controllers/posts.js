@@ -1,5 +1,8 @@
 const { request } = require("express");
 const Post = require("../models/Post");
+const nodemailer = require("nodemailer")
+const { mainMail } = require("../middleware/nodemailer")
+const User = require("../models/User");
 
 module.exports = {
   getProfile: async (req, res) => {
@@ -93,4 +96,17 @@ module.exports = {
       res.redirect("/profile");
     }
   },
+  postContact: async (req, res, next) => {
+    const { yourname, youremail, yourmessage, postemail } = req.body;
+    const postUser = await User.findById({ _id: postemail });
+    console.log(postUser.email)
+    const posterEmail = postUser.email
+    try {
+      await mainMail(yourname, youremail, yourmessage, posterEmail);
+      res.send("Message sent successfully!");
+    } catch (error) {
+      res.send("Message could not be sent.");
+      console.log(error)
+    }
+},
 };
